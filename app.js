@@ -1,12 +1,40 @@
-const { rastro } = require('rastrojs');
+require('dotenv/config');
 
-async function lastTrackResponse(trackingNumber) {
+const { parseISO, format } = require('date-fns')
+const { rastro } = require('rastrojs');
+const TelegramBot = require('node-telegram-bot-api');
+
+const token = process.env.telegram_token;
+const bot = new TelegramBot(token, { polling: true });
+
+let trackingNumber = '';
+let lastTrack = '';
+
+async function lastTrackResponse() {
+	if(trackingNumber === '') { return }
+
   const track = await rastro.track(trackingNumber);
   const tracks = track[0].tracks;
 
   if (tracks.length == 0) { return }
 
-  console.log( tracks[tracks.length - 1]);
+	lastTrack = tracks[tracks.length - 1];
+  return lastTrack;
 };
 
-lastTrackResponse('OD309610299BR');
+async function app() {
+	bot.onText(/\/setTrack (.+)/, (msg, match) => {	
+		trackingNumber = match[1];
+		lastTrackResponse()
+		bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
+	});
+
+	bot.onText(/\/getTrack/, (msg) => {
+		bot.sendMessage(msg.chat.id,
+			`is on: ${lastTrack.locale},\nstatus: ${lastTrack.status},\ndescription: ${lastTrack.observation},\nupdatedAt: ${lastTrack.trackedAt}`);
+	});
+
+};
+
+lastTrackResponse();
+app();
