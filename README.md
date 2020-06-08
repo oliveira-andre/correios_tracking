@@ -2,7 +2,7 @@
 
 ### result
 
-[result](./tmp/result_telegram_bot.png)
+![result](./tmp/result_telegram_bot.png)
 
 ### how to use
 
@@ -22,7 +22,7 @@ yarn install
 
 create a telegram token bot
 
-[telegram token bot](./tmp/new_bot_print.png)
+![telegram token bot](./tmp/new_bot_print.png)
 
 create a dotenv file and configure the telegram_token environment
 
