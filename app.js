@@ -10,28 +10,28 @@ let trackingNumber = '';
 let lastTrack = '';
 
 async function lastTrackResponse() {
-	if(trackingNumber === '') { return }
+  if(trackingNumber === '') { return }
 
   const track = await rastro.track(trackingNumber);
   const tracks = track[0].tracks;
 
   if (tracks.length == 0) { return }
 
-	lastTrack = tracks[tracks.length - 1];
+  lastTrack = tracks[tracks.length - 1];
   return lastTrack;
 };
 
 async function app() {
-	bot.onText(/\/setTrack (.+)/, (msg, match) => {	
-		trackingNumber = match[1];
-		lastTrackResponse()
-		bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
-	});
+  bot.onText(/\/setTrack (.+)/, (msg, match) => {	
+    trackingNumber = match[1];
+    lastTrackResponse()
+    bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
+  });
 
-	bot.onText(/\/getTrack/, (msg) => {
-		bot.sendMessage(msg.chat.id,
-			`is on: ${lastTrack.locale},\nstatus: ${lastTrack.status},\ndescription: ${lastTrack.observation},\nupdatedAt: ${lastTrack.trackedAt}`);
-	});
+  bot.onText(/\/getTrack/, (msg) => {
+    bot.sendMessage(msg.chat.id,
+      `is on: ${lastTrack.locale},\nstatus: ${lastTrack.status},\ndescription: ${lastTrack.observation},\nupdatedAt: ${lastTrack.trackedAt}`);
+  });
 
 };
 
