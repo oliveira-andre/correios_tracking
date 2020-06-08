@@ -1,0 +1,9 @@
+{
+  "name": "correios_tracking",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "rastrojs": "^1.1.0"
+  }
+}
