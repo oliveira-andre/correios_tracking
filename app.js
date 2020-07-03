@@ -13,8 +13,8 @@ let trackList = [];
 
 async function setTrackObject(trackName) {
   let trackObject = {
-    trackName: trackName,
-    trackingNumber: trackingNumber
+    name: trackName,
+    number: trackingNumber
   };
 
   trackList.push(trackObject);
@@ -32,11 +32,19 @@ async function lastTrackResponse() {
   return lastTrack;
 };
 
-function trackMessage() {
+function trackDetailsMessage() {
   let { locale, status, observation, trackedAt } = lastTrack;
 
   return `is on: ${locale},\nstatus: ${status},\n\
 description: ${observation},\nupdatedAt: ${trackedAt}`;
+}
+
+function trackListMessage() {
+  let trackListMessage = trackList.map(
+    track => `name: ${track.name},\nnumber: ${track.number}\n---\n`
+  );
+
+  return trackListMessage[0];
 }
 
 async function app() {
@@ -49,8 +57,12 @@ async function app() {
     bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
   });
 
-  bot.onText(/\/getTrack/, (msg) => {
-    bot.sendMessage(msg.chat.id, trackMessage());
+  bot.onText(/\/getTrack$/, (msg) => {
+    bot.sendMessage(msg.chat.id, trackDetailsMessage());
+  });
+
+  bot.onText(/\/getTrackList/, (msg) => {
+    bot.sendMessage(msg.chat.id, trackListMessage());
   });
 
 };
