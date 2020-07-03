@@ -9,6 +9,17 @@ const bot = new TelegramBot(token, { polling: true });
 let trackingNumber = '';
 let lastTrack = '';
 
+let trackList = [];
+
+async function setTrackObject(trackName) {
+  let trackObject = {
+    trackName: trackName,
+    trackingNumber: trackingNumber
+  };
+
+  trackList.push(trackObject);
+}
+
 async function lastTrackResponse() {
   if(trackingNumber === '') { return }
 
@@ -22,8 +33,9 @@ async function lastTrackResponse() {
 };
 
 async function app() {
-  bot.onText(/\/setTrack (.+)/, (msg, match) => {	
+  bot.onText(/\/setTrack (.+);(.+)/, (msg, match) => {	
     trackingNumber = match[1];
+    setTrackObject(match[2]);
     lastTrackResponse()
     bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
   });
