@@ -32,17 +32,25 @@ async function lastTrackResponse() {
   return lastTrack;
 };
 
+function trackMessage() {
+  let { locale, status, observation, trackedAt } = lastTrack;
+
+  return `is on: ${locale},\nstatus: ${status},\n\
+description: ${observation},\nupdatedAt: ${trackedAt}`;
+}
+
 async function app() {
   bot.onText(/\/setTrack (.+);(.+)/, (msg, match) => {	
     trackingNumber = match[1];
+
     setTrackObject(match[2]);
     lastTrackResponse()
+
     bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
   });
 
   bot.onText(/\/getTrack/, (msg) => {
-    bot.sendMessage(msg.chat.id,
-      `is on: ${lastTrack.locale},\nstatus: ${lastTrack.status},\ndescription: ${lastTrack.observation},\nupdatedAt: ${lastTrack.trackedAt}`);
+    bot.sendMessage(msg.chat.id, trackMessage());
   });
 
 };
