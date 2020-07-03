@@ -40,11 +40,11 @@ description: ${observation},\nupdatedAt: ${trackedAt}`;
 }
 
 function trackListMessage() {
-  let trackListMessage = trackList.map(
-    track => `name: ${track.name},\nnumber: ${track.number}\n---\n`
-  );
-
-  return trackListMessage[0];
+  let trackListMessage = '';
+  trackList.forEach(track => {
+    trackListMessage = trackListMessage + `name: ${track.name},\nnumber: ${track.number}\n---\n`
+  });
+  return trackListMessage;
 }
 
 async function app() {
