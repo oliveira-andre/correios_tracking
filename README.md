@@ -16,7 +16,7 @@ cd correios_tracking
 install dependencies
 
 ```
-yarn add node -g
+yarn global add node
 yarn install
 ```
 
