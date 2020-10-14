@@ -41,9 +41,14 @@ description: ${observation},\nupdatedAt: ${trackedAt}`;
 
 function trackListMessage() {
   let trackListMessage = '';
-  trackList.forEach(track => {
-    trackListMessage = trackListMessage + `name: ${track.name},\nnumber: ${track.number}\n---\n`
-  });
+
+  if (trackList.length !== 0) {
+    trackList.forEach(track => {
+      trackListMessage = trackListMessage + `name: ${track.name},\nnumber: ${track.number}\n---\n`
+    });
+  } else {
+    return 'no track object into the list';
+  }
   return trackListMessage;
 }
 
