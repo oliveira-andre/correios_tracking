@@ -6,9 +6,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.telegram_token;
 const bot = new TelegramBot(token, { polling: true });
 
-let trackingNumber = '';
-let lastTrack = '';
-
+let lastTrack = {};
 let trackList = [];
 
 async function setTrackObject(trackName) {
@@ -20,11 +18,12 @@ async function setTrackObject(trackName) {
   trackList.push(trackObject);
 }
 
-async function lastTrackResponse() {
-  if(trackingNumber === '') { return }
+async function lastTrackResponse(index) {
+  let trackingNumber = trackList[index].trackingNumber;
+  if(trackingNumber === '' || trackingNumber === 'undefined') { return }
 
-  const track = await rastro.track(trackingNumber);
-  const tracks = track[0].tracks;
+  let trackResponse = await rastro.track(trackingNumber);
+  let tracks = trackResponse[0].tracks;
 
   if (tracks.length == 0) { return }
 
@@ -47,22 +46,25 @@ function trackListMessage() {
       trackListMessage = trackListMessage + `name: ${track.name},\nnumber: ${track.number}\n---\n`
     });
   } else {
-    return 'no track object into the list';
+    return 'No track object into the list';
   }
   return trackListMessage;
+}
+
+function removeTrackFromList(index) {
+  trackList.splice(index, 1);
+  return 'Removed with success';
 }
 
 async function app() {
   bot.onText(/\/setTrack (.+);(.+)/, (msg, match) => {	
     trackingNumber = match[1];
-
     setTrackObject(match[2]);
-    lastTrackResponse()
-
     bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
   });
 
-  bot.onText(/\/getTrack$/, (msg) => {
+  bot.onText(/\/getTrack (.+)/, (msg) => {
+    lastTrackResponse(match[1]);
     bot.sendMessage(msg.chat.id, trackDetailsMessage());
   });
 
@@ -70,6 +72,9 @@ async function app() {
     bot.sendMessage(msg.chat.id, trackListMessage());
   });
 
+  bot.onText(/\/rmTrack (.+)/, (msg) => {
+    bot.sendMessage(msg.chat.id, removeTrackFromList(match[1]));
+  });
 };
 
 lastTrackResponse();
