@@ -63,7 +63,7 @@ async function app() {
     bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
   });
 
-  bot.onText(/\/getTrack (.+)/, (msg) => {
+  bot.onText(/\/getTrack (.+)/, (msg, match) => {
     lastTrackResponse(match[1]);
     bot.sendMessage(msg.chat.id, trackDetailsMessage());
   });
@@ -72,7 +72,7 @@ async function app() {
     bot.sendMessage(msg.chat.id, trackListMessage());
   });
 
-  bot.onText(/\/rmTrack (.+)/, (msg) => {
+  bot.onText(/\/rmTrack (.+)/, (msg, match) => {
     bot.sendMessage(msg.chat.id, removeTrackFromList(match[1]));
   });
 };
