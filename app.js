@@ -61,19 +61,20 @@ function removeTrackFromList(index) {
 }
 
 function helpMessage() {
-  let helpMessage = 'commands:\n'
-  helpMessage += 'setTrack trackingNumber;trackingName\n'
-  helpMessage += 'getTrack index\n'
-  helpMessage += 'getTrackList\n'
-  helpMessage += 'rmTrack index\n'
-  helpMessage += 'help\n';
+  let helpMessage = 'commands:\n\n'
+  helpMessage += '/setTrack trackingNumber;trackingName\n'
+  helpMessage += '/getTrack index\n'
+  helpMessage += '/getTrackList\n'
+  helpMessage += '/rmTrack index\n'
+  helpMessage += '/help\n';
 
   return helpMessage;
 }
 
 async function app() {
   bot.onText(/\/setTrack (.+);(.+)/, (msg, match) => {	
-    lastTrackResponse(match[1]);
+    trackingNumber = match[1]
+    lastTrackResponse();
     setTrackObject(match[2]);
     bot.sendMessage(msg.chat.id, 'new tracking number was setted with success');
   });
@@ -91,7 +92,7 @@ async function app() {
     bot.sendMessage(msg.chat.id, removeTrackFromList(match[1]));
   });
 
-  bot.onText(/\/help (.+)/, (msg) => {
+  bot.onText(/\/help/, (msg) => {
     bot.sendMessage(msg.chat.id, helpMessage());
   });
 };
