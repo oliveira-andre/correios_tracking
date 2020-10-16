@@ -6,6 +6,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.telegram_token;
 const bot = new TelegramBot(token, { polling: true });
 
+let trackingNumber = '';
 let lastTrack = {};
 let trackList = [];
 
@@ -19,7 +20,10 @@ async function setTrackObject(trackName) {
 }
 
 async function lastTrackResponse(index) {
-  let trackingNumber = trackList[index].trackingNumber;
+  if (index) {
+    trackingNumber = trackList[index].trackingNumber;
+  }
+
   if(trackingNumber === '' || trackingNumber === 'undefined') { return }
 
   let trackResponse = await rastro.track(trackingNumber);
