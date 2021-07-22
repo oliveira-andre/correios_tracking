@@ -66,7 +66,7 @@ function helpMessage() {
   helpMessage += '/getTrack index\n'
   helpMessage += '/getTrackList\n'
   helpMessage += '/rmTrack index\n'
-  helpMessage += '/help\n';
+  helpMessage += '/start\n';
 
   return helpMessage;
 }
@@ -92,7 +92,7 @@ async function app() {
     bot.sendMessage(msg.chat.id, removeTrackFromList(match[1]));
   });
 
-  bot.onText(/\/help/, (msg) => {
+  bot.onText(/\/start/, (msg) => {
     bot.sendMessage(msg.chat.id, helpMessage());
   });
 };
