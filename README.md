@@ -13,13 +13,6 @@ git clone https://github.com/oliveira-andre/correios_tracking.git
 cd correios_tracking
 ```
 
-install dependencies
-
-```
-yarn global add node
-yarn install
-```
-
 create a telegram token bot
 
 ![telegram token bot](./tmp/new_bot_print.png)
@@ -31,14 +24,8 @@ touch .env
 echo "telegram_token='<your telegra token api>' >> .env"
 ```
 
-run server
+run server with docker
 
 ```
-yarn node app.js
-```
-
-or
-
-```
-node app.js
+sudo docker-compose up --build -d
 ```
