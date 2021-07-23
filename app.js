@@ -21,7 +21,11 @@ async function setTrackObject(trackName) {
 
 async function lastTrackResponse(index) {
   if (index) {
-    trackingNumber = trackList[index].number;
+    currentTrack = trackList[index];
+
+    if (currentTrack) {
+      trackingNumber = currentTrack.number;
+    }
   }
 
   if(trackingNumber === '' || trackingNumber === 'undefined') { return }
