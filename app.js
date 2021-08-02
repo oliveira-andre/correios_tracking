@@ -33,7 +33,7 @@ async function lastTrackResponse(index) {
   let trackResponse = await rastro.track(trackingNumber);
   let tracks = trackResponse[0].tracks;
 
-  if (tracks.length == 0) { return }
+  if (!tracks || tracks.length == 0) { return }
 
   lastTrack = tracks[tracks.length - 1];
   return lastTrack;
